@@ -12,6 +12,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <activity android:name=".ui.vocabularies.VocabulariesActivity">
+        </activity>
         <activity android:name=".ui.home.HomeActivity">
         </activity>
         <activity android:name=".ui.splash.SplashActivity">
