@@ -22,6 +22,7 @@ class VocabulariesActivity :
     override val layoutId = R.layout.activity_vocabularies
     override val args by lazyOf(VocabulariesActivityArgs())
     private val adapter by lazyOf(VocabulariesAdapter(mutableListOf()))
+    private var showingLearned = false
 
     override fun initView() {
         hideActionBar()
@@ -30,6 +31,7 @@ class VocabulariesActivity :
             adapter = this@VocabulariesActivity.adapter
         }
         imageHomeButton?.setOnClickListener(this)
+        textLearned?.setOnClickListener(this)
     }
 
     override fun observeViewModel() = viewModel.run {
@@ -39,7 +41,20 @@ class VocabulariesActivity :
     override fun onClick(view: View?) {
         when (view) {
             imageHomeButton -> startActivity(HomeActivityArgs().intent(this))
+            textLearned -> changeShowingMode()
         }
     }
 
+    private fun changeShowingMode() {
+        showingLearned = !showingLearned
+        updateView()
+    }
+
+    private fun updateView() = if (showingLearned) {
+        textLearned?.text = getString(R.string.label_show_all_words)
+        viewModel.loadLearnedVocabularies()
+    } else {
+        textLearned?.text = getString(R.string.label_show_learned_words)
+        viewModel.loadVocabularies()
+    }
 }
